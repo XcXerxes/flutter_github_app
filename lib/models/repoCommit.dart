@@ -1,10 +1,3 @@
-/*
- * @Description: 
- * @Author: leo
- * @Date: 2020-06-03 00:18:19
- * @LastEditors: leo
- * @LastEditTime: 2020-06-03 22:16:20
- */ 
 import 'commitGitInfo.dart';
 import 'user.dart';
 import 'package:json_annotation/json_annotation.dart';

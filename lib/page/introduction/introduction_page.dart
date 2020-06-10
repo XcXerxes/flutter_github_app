@@ -3,12 +3,16 @@
  * @Author: leo
  * @Date: 2020-06-06 23:30:22
  * @LastEditors: leo
- * @LastEditTime: 2020-06-06 23:51:11
+ * @LastEditTime: 2020-06-10 15:03:49
  */ 
 import 'package:flutter/material.dart';
+import 'package:github_app/page/introduction/dynamic_widget.dart';
+import 'package:github_app/page/introduction/file_widget.dart';
+import 'package:github_app/page/introduction/issue_widget.dart';
+import 'package:github_app/page/introduction/readme_widger.dart';
 
 class IntroductionPage extends StatefulWidget {
-  final argument;
+  final IntroductionArgsModel argument;
   IntroductionPage(this.argument);
   @override
   State<StatefulWidget> createState() {
@@ -17,7 +21,8 @@ class IntroductionPage extends StatefulWidget {
   }
 }
 
-class _IntroductionPageState extends State<IntroductionPage> {
+class _IntroductionPageState extends State<IntroductionPage> with AutomaticKeepAliveClientMixin {
+
   TabController _tabController;
   List tabs = ['动态', '详情', 'Issue', '文件'];
 
@@ -32,7 +37,7 @@ class _IntroductionPageState extends State<IntroductionPage> {
       length: tabs.length,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.argument),
+          title: Text(widget.argument.repo),
           actions: <Widget>[
             IconButton(
               onPressed: (){
@@ -45,12 +50,12 @@ class _IntroductionPageState extends State<IntroductionPage> {
         ),
         body: Container(
           child: TabBarView(
-            children: tabs.map((tab) {
-              return Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(tab),
-              );
-            }).toList(),
+            children: <Widget>[
+              DynamicContainer(widget.argument),
+              ReadmeContainer(widget.argument),
+              IssueContainer(widget.argument),
+              FileContainer(widget.argument),
+            ],
           ),
         ),
       ),
@@ -62,4 +67,16 @@ class _IntroductionPageState extends State<IntroductionPage> {
       tabs: tabs.map((e) => Tab(text: e)).toList(),
     );
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+
+}
+
+class IntroductionArgsModel {
+  final String userName;
+  final String repo;
+
+  IntroductionArgsModel(this.userName, this.repo);
 }

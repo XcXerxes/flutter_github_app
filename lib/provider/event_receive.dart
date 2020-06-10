@@ -3,7 +3,7 @@
  * @Author: leo
  * @Date: 2020-06-03 21:41:01
  * @LastEditors: leo
- * @LastEditTime: 2020-06-06 22:13:49
+ * @LastEditTime: 2020-06-08 17:54:06
  */ 
 
 import 'package:flutter/material.dart';
@@ -16,6 +16,7 @@ import 'package:github_app/services/result_data.dart';
 class EventReceiveProvider extends ChangeNotifier {
   List<Event> eventList = [];
   List<Event> strredEventList = [];
+
   // 获取事件列表
   getEventReceiveList(String userName, {page = 1, bool needDb = false}) async {
     if (userName == null) {

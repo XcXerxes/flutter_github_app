@@ -3,26 +3,26 @@
  * @Author: leo
  * @Date: 2020-06-03 22:54:52
  * @LastEditors: leo
- * @LastEditTime: 2020-06-08 00:51:01
+ * @LastEditTime: 2020-06-08 18:22:47
  */ 
 
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:github_app/models/repoCommit.dart';
 import 'package:github_app/page/introduction/introduction_page.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:github_app/models/event.dart';
 import 'package:github_app/widget/cache_image.dart';
 
-class EventItem extends StatelessWidget {
-  final Event item;
-  EventItem(this.item);
+class CommitsItem extends StatelessWidget {
+  final RepoCommit item;
+  CommitsItem(this.item);
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/introduction', arguments: IntroductionArgsModel(item.actor.login, item.repo.name));
+        Navigator.pushNamed(context, '/introduction', arguments: IntroductionArgsModel(item.committer.login, item.committer.name));
       },
       child: Container(
         width: double.infinity,
@@ -34,7 +34,8 @@ class EventItem extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 _bodyArea(),
-                _des()
+                _des(),
+                _sha()
               ],
             ),
           )
@@ -48,7 +49,7 @@ class EventItem extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         _avatarUser(),
-        Text("${DateFormat.jm().format(item.createdAt)}")
+        Text("${item.committer.created_at ?? ''}")
       ],
     );
   }
@@ -56,14 +57,11 @@ class EventItem extends StatelessWidget {
   Widget _avatarUser() {
     return Row(
       children: <Widget>[
-        ClipOval(
-          child: CacheImage(item.actor.avatar_url,
-            width: ScreenUtil().setWidth(64),
-          ),
-        ),
         Container(
-          margin: EdgeInsets.only(left: 8.0),
-          child: Text(item.actor.login),
+          child: Text('${item.commit.author.name}', style: TextStyle(
+              fontSize: ScreenUtil().setSp(36),
+              fontWeight: FontWeight.bold
+          )),
         )
       ],
     );
@@ -71,13 +69,21 @@ class EventItem extends StatelessWidget {
   
   // 描述文件
   Widget _des() {
-    var action = item.payload.action != null ? '${item.payload.action} ' : '';
     return Container(
       margin: EdgeInsets.only(top: 10.0),
       alignment: Alignment.centerLeft,
-      child: Text('$action${item.repo.name}', style: TextStyle(
+      child: Text('${item.commit.message}', style: TextStyle(
+        color: Colors.black54
+      )),
+    );
+  }
+  // 描述文件
+  Widget _sha() {
+    return Container(
+      margin: EdgeInsets.only(top: 10.0),
+      alignment: Alignment.centerLeft,
+      child: Text('${item.sha}', style: TextStyle(
         fontSize: ScreenUtil().setSp(30),
-        fontWeight: FontWeight.bold
       )),
     );
   }

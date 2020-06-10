@@ -3,7 +3,7 @@
  * @Author: leo
  * @Date: 2020-06-03 11:18:15
  * @LastEditors: leo
- * @LastEditTime: 2020-06-05 21:34:36
+ * @LastEditTime: 2020-06-10 20:16:34
  */ 
 
 // 所有的接口地址
@@ -70,6 +70,36 @@ class Address {
     return '$host/users/$userName/repos';
   }
 
+  /// 仓库的详情
+  static userRepoDetail(String userName , String repo) {
+    return '$host/repos/$repo';
+  }
+
+  ///仓库活动 get
+  static getReposEvent(reposName) {
+    return "$host/repos/$reposName/events";
+  }
+  ///仓库活动 get
+  static getReposCommit(reposName) {
+    return "$host/repos/$reposName/commits";
+  }
+  /// readme 内容
+  static getReposReadme(reposName) {
+    return "$host/repos/$reposName/readme";
+  }
+  /// repo 的issue 列表
+  static getReposIssueList(reposName) {
+    return "$host/repos/$reposName/issues";
+  }
+
+  /// repo 的 文件列表
+  static getReposFileList(reposName) {
+    return "$host/repos/$reposName/contents";
+  }
+  /// repo 的目录
+  static reposFileDir(reposName, path) {
+    return '$host/repos/$reposName/contents/$path';
+  }
   // 获取趋势列表
   static getTrendList() {
     return '$hostWeb/repositories';
